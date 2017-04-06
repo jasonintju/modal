@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Modal</title>
+  <link rel="stylesheet" href="modal.css">
+  <script src="modal.js"></script>
+  <style>
+    body {
+      padding-top: 50px;
+    }
+    h3, .test {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h3>类似Bootstrap模态窗的简单小插件</h3>
+  <div class="test"><button class="btn btn-primary">点&nbsp;我</button></div>
+  <script>
+    var btn = document.querySelector('button');
+    btn.addEventListener('click', function() {
+      Modal({
+        title: '自定义title',
+        content: '自定义弹窗主体内容',
+        confirmBtnHandler: function() {
+          console.info('这是自定义确认事件');
+          Modal.close(); // 关闭弹窗
+        },
+        cancelBtnHandler: function() {
+          console.info('这是自定义取消事件');
+          Modal.close(); // 关闭弹窗
+        }
+      }).init();
+    }, false);
+  </script>
+</body>
+</html>
