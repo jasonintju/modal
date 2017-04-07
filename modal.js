@@ -11,48 +11,60 @@
     content: '',
     confirmBtnText: '确认',
     confirmBtnHandler: null,
+    isNeedConfirmBtn: true,
     cancelBtnText: '取消',
-    cancelBtnHandler: null
+    cancelBtnHandler: null,
+    isNeedCancelBtn: true,
+    ignoreBackdropClick: false
   }
 
   _Modal.prototype = {
     Constructor: _Modal,
     init: function() {
-      if (!this.options.template) {
-        this.options.template =
-          `<div class="modal">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                  <h4 class="modal-title">${this.options.title}</h4>
-                </div>
-                <div class="modal-body">
-                  ${this.options.content}
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default btn-cancel">${this.options.cancelBtnText}</button>
-                  <button type="button" class="btn btn-primary btn-confirm">${this.options.confirmBtnText}</button>
-                </div>
-              </div>
-            </div>
-          </div>`
+      var footerBtn = `<div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-cancel">${this.options.cancelBtnText}</button>
+                        <button type="button" class="btn btn-primary btn-confirm">${this.options.confirmBtnText}</button>
+                      </div>`;
+      if (!this.options.isNeedCancelBtn && this.options.isNeedConfirmBtn) {
+        footerBtn = `<div class="modal-footer">
+                      <button type="button" class="btn btn-primary btn-confirm">${this.options.confirmBtnText}</button>
+                    </div>`
+      } else if (this.options.isNeedCancelBtn && !this.options.isNeedConfirmBtn) {
+        footerBtn = `<div class="modal-footer">
+                      <button type="button" class="btn btn-default btn-cancel">${this.options.cancelBtnText}</button>
+                    </div>`
+      } else if (!this.options.isNeedConfirmBtn && !this.options.isNeedCancelBtn) {
+        footerBtn = ''
       }
-      var div = document.createElement('div');
-      div.classList.add('modal-wrap')
-      div.innerHTML = this.options.template
-      document.body.appendChild(div)
+      var template =
+        `<div class="modal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                <h4 class="modal-title">${this.options.title}</h4>
+              </div>
+              <div class="modal-body">
+                ${this.options.content}
+              </div>
+              ${footerBtn}
+            </div>
+          </div>
+        </div>`
+      document.body.insertAdjacentHTML('beforeend', template);
       document.body.classList.add('modal-open')
       this.bindEvents()
     },
     bindEvents: function() {
       var _this = this
       // 点击模态窗背景部分关闭弹窗
-      var modal = document.querySelector('.modal')
-      modal.addEventListener('click', function(e) {
-        if (e.target !== modal) return
-        _this.closeModal()
-      }, false)
+      if (!this.options.ignoreBackdropClick) {
+        var modal = document.querySelector('.modal')
+        modal.addEventListener('click', function(e) {
+          if (e.target !== modal) return
+          _this.closeModal()
+        }, false)
+      }
 
       var cancelBtn = document.querySelector('.modal-footer .btn-cancel')
       var confirmBtn = document.querySelector('.modal-footer .btn-confirm')
@@ -63,8 +75,8 @@
       closeModalSign && closeModalSign.addEventListener('click', _this.closeModal, false)
     },
     closeModal: function() {
-      var modalWrap = document.querySelector('.modal-wrap')
-      document.body.removeChild(modalWrap)
+      var modal = document.querySelector('.modal')
+      document.body.removeChild(modal)
       document.body.classList.remove('modal-open')
     }
   }
