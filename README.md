@@ -1,6 +1,6 @@
 # 原生js实现的简单弹窗，类似Bootstrap模态窗效果
 
-暂时只支持在js中调用，调用方法为
+引入modal.css和modal.js，在需要调出弹窗的地方，写入以下代码：
 
 ```
 Modal(options).init()
@@ -10,16 +10,15 @@ Modal(options).init()
 
 ```
 {
-  title: '提示',             // 弹窗标题
-  content: '',              // 弹窗主体内容
-  confirmBtnText: '确认',    // 确认按钮文字
-  confirmBtnHandler: null,  // 确认按钮绑定的事件
-  cancelBtnText: '取消',     // 取消按钮文字
-  cancelBtnHandler: null    // 取消按钮绑定的事件
+  title: '提示',             // 弹窗标题，默认 “提示”
+  content: '',              // 弹窗主体内容，默认为空
+  confirmBtnText: '确认',    // 确认按钮文字，默认“确认”
+  confirmBtnHandler: null,  // 确认按钮绑定的事件，默认关闭弹窗事件
+  isNeedConfirmBtn: true,   // 是否需要“确认”按钮，默认 true
+  cancelBtnText: '取消',     // 取消按钮文字，默认“取消”
+  cancelBtnHandler: null,    // 取消按钮绑定的事件，默认关闭弹窗事件
+  isNeedCancelBtn: true,     // 是否需要“取消”按钮，默认 true
+  ignoreBackdropClick: false // 是否忽略点击背景色关闭弹窗功能，默认不忽略
 }
 ```
----
-持续优化ing
 
-都不敢相信这也能成为一个插件，哈哈哈，就那么几十行代码！！！
-功能上肯定还有很多不足，会继续完善的。
