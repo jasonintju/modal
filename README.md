@@ -1,14 +1,14 @@
-# 原生js实现的简单弹窗，类似Bootstrap模态窗效果
+# 原生js实现的简单模态窗
 
 引入modal.css和modal.js，在需要调出弹窗的地方，写入以下代码：
 
-```
+```javascript
 Modal(options).init()
 ```
 
 `options`为可选的输入参数对象：
 
-```
+```javascript
 {
   title: '提示',             // 弹窗标题，默认 “提示”
   content: '',              // 弹窗主体内容，默认为空
